@@ -143,6 +143,10 @@ body {
   border-width: 0px;
 }
 
+#list-text-input- {
+  width: 100%;
+}
+
 #edit-numbering {
   position:absolute;
   left:0%;

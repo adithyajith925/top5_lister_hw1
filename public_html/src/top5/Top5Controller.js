@@ -50,7 +50,7 @@ export default class Top5Controller {
                     }
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
-                            this.model.addChangeItemTransaction(i-1, event.target.value);
+                            this.model.addChangeItemTransaction(i-1, event.target.value);       
                         }
                     }
                     textInput.onblur = (event) => {
@@ -62,13 +62,52 @@ export default class Top5Controller {
     }
 
     registerListSelectHandlers(id) {
+        document.getElementById("top5-list-" + id).onmouseenter = (event) => {
+
+        }
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
 
             // GET THE SELECTED LIST
             this.model.loadList(id);
+
         }
+        
+            
+        let item = document.getElementById("top5-list-" + id);
+        item.ondblclick = (ev) => {
+            
+            this.model.unselectAll();
+
+            // GET THE SELECTED LIST
+            this.model.loadList(id);
+            let uniq = this.model.currentList.getUniq();
+            item.innerHTML = "";
+            
+            let textInput = document.createElement("input");
+            textInput.setAttribute("type", "text");
+            textInput.setAttribute("id", "list-text-input-");
+            textInput.setAttribute("value", this.model.currentList.getName());
+            item.appendChild(textInput);
+
+            textInput.focus();
+
+            textInput.ondblclick = (event) => {
+                this.ignoreParentClick(event);
+            }
+            textInput.onkeydown = (event) => {
+                if (event.key === 'Enter') {
+                    this.model.addChangeListTransaction(uniq, event.target.value);
+                }
+            }
+            textInput.onblur = (event) => {
+                this.model.addChangeListTransaction(uniq, event.target.value);
+                // item.removeChild(textInput);
+                this.model.restoreList();
+            }
+        }
+        // EDITING LIST
         // FOR DELETING THE LIST
         document.getElementById("delete-list-" + id).onmousedown = (event) => {
             this.ignoreParentClick(event);

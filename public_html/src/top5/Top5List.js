@@ -9,14 +9,27 @@
 export default class Top5List {
     constructor(initId) {
         this.id = initId;
+        this.uniq = initId;
     }
 
     getName() {
         return this.name;
     }
 
+    getId() {
+        return this.id;
+    }
+
+    setId(initId) {
+        this.id = initId;
+    }
+
     setName(initName) {
         this.name = initName;
+    }
+
+    getUniq() {
+        return this.uniq;
     }
 
     getItemAt(index) {

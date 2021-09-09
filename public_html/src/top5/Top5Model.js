@@ -1,6 +1,7 @@
 import jsTPS from "../common/jsTPS.js"
 import Top5List from "./Top5List.js";
 import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
+import ChangeList_Transaction from "./transactions/ChangeList_Transaction.js"
 
 /**
  * Top5Model.js
@@ -71,6 +72,9 @@ export default class Top5Model {
                 return 0;
             }
             else {
+                let temp = listA.id;
+                listA.setId(listB.getId());
+                listB.setId(temp);
                 return 1;
             }
         });
@@ -103,7 +107,7 @@ export default class Top5Model {
             }
             i++;
         }
-        this.tps.clearAllTransactions();
+        // this.tps.clearAllTransactions();
         this.view.updateToolbarButtons(this);
     }
 
@@ -146,10 +150,35 @@ export default class Top5Model {
         this.tps.addTransaction(transaction);
     }
 
+    addChangeListTransaction = (name, newText) => {
+        let oldText = this.currentList.getName();
+        let transaction = new ChangeList_Transaction(this, name, oldText, newText);
+        this.tps.addTransaction(transaction);
+    }
+
     changeItem(id, text) {
         this.currentList.items[id] = text;
         this.view.update(this.currentList);
         this.saveLists();
+    }
+
+    changeList(id, text) {
+        let uniq = 0;
+        this.top5Lists.forEach(element => {
+            if (element.getUniq() === id) {
+                uniq = element.getUniq();
+                element.setName(text);
+            }
+        });
+        // this.view.update(this.currentList);
+        this.sortLists();
+        this.saveLists();
+        this.top5Lists.forEach(element => {
+            if (element.getUniq() === uniq) {
+                this.loadList(element.getId());
+            }
+        });
+        // this.view.refreshLists(this.top5Lists);
     }
 
     // SIMPLE UNDO/REDO FUNCTIONS
