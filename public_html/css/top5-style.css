@@ -100,11 +100,16 @@ body {
   overflow: scroll;
 }
 
-.list-card, .selected-list-card, .unselected-list-card {
+.list-card, .selected-list-card, .unselected-list-card, .hover-list-card, .selected-hover-list-card {
   font-size: 18pt;
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
+}
+
+.hover-list-card {
+  background-color: #111111;
+  color: white;
 }
 
 .selected-list-card {
@@ -112,9 +117,15 @@ body {
   color: white;
 }
 
+.selected-hover-list-card {
+  background-color: #496f49;
+  color: white;
+}
+
 .unselected-list-card {
   background-color: var(--swatch-complement);
 }
+
 
 .list-card-button {
   float:right;

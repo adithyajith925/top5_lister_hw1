@@ -92,6 +92,14 @@ export default class Top5Model {
         }
     }
 
+    mouseEntered(id) {
+        this.view.hoverList(id, this.currentList);
+    }
+
+    mouseExited(id) {
+        this.view.unhoverList(id, this.currentList);
+    }
+
     loadList(id) {
         let list = null;
         let found = false;

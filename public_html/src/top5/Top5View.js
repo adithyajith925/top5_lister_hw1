@@ -86,6 +86,31 @@ export default class Top5View {
         button.classList.remove("disabled");
     }
 
+    hoverList(listId, currentList) {
+        let listCard = document.getElementById("top5-list-" + listId);
+
+        if (currentList != null && (listId === currentList.getId())) {
+            listCard.classList.add("selected-hover-list-card");
+        }
+        else {
+            listCard.classList.add("hover-list-card");
+        }
+        listCard.classList.remove("selected-list-card");
+        listCard.classList.remove("unselected-list-card");
+    }
+
+    unhoverList(listId, currentList) {
+        let listCard = document.getElementById("top5-list-" + listId);
+        listCard.classList.remove("hover-list-card");
+        if (currentList == null || (listId !== currentList.getId())) {
+            listCard.classList.add("unselected-list-card");
+        }
+        else {
+            listCard.classList.remove("selected-hover-list-card");
+            listCard.classList.add("selected-list-card");
+        }
+    }
+
     highlightList(listId) {
         // HIGHLIGHT THE LIST
         let listCard = document.getElementById("top5-list-" + listId);

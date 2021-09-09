@@ -63,7 +63,11 @@ export default class Top5Controller {
 
     registerListSelectHandlers(id) {
         document.getElementById("top5-list-" + id).onmouseenter = (event) => {
-
+            this.model.mouseEntered(id);
+        }
+    
+        document.getElementById("top5-list-" + id).onmouseleave = (event) => {
+            this.model.mouseExited(id);
         }
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
@@ -119,6 +123,10 @@ export default class Top5Controller {
             deleteSpan.innerHTML = "";
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
+            let cancel = document.getElementById("dialog-cancel-button");
+            cancel.onclick = (event) => {
+                modal.classList.remove("is-visible");
+            }
         }
     }
 
