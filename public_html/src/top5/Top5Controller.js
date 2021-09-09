@@ -55,9 +55,12 @@ export default class Top5Controller {
             this.model.undo();
         }
 
-        
         document.getElementById("redo-button").onmousedown = (event) => {
             this.model.redo();
+        }
+
+        document.getElementById("close-button").onmousedown = (event) => {
+            this.model.unselectAll();
         }
 
         // SETUP THE ITEM HANDLERS
@@ -110,6 +113,14 @@ export default class Top5Controller {
 
             // GET THE SELECTED LIST
             this.model.loadList(id);
+            // let status = document.getElementById("top5-statusbar");
+            
+            // let textSpan = document.createElement("span");
+            // status.innerHTML = "Top 5 " + this.model.currentList.getName();
+            // status.classList.add("top5-selected");
+            
+
+            // status.appendChild(textSpan);
 
         }
         

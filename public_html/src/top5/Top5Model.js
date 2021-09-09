@@ -102,8 +102,9 @@ export default class Top5Model {
 
     unselectAll() {
         this.currentList = null;
+        document.getElementById("top5-statusbar").innerHTML = "";
+        document.getElementById("top5-statusbar").classList.remove("top5-selected");
         for (let i = 0; i < this.top5Lists.length; i++) {
-            let list = this.top5Lists[i];
             this.view.unhighlightList(i);
         }
         this.view.clearWorkspace();
@@ -132,7 +133,11 @@ export default class Top5Model {
             }
             i++;
         }
-        // this.tps.clearAllTransactions();
+        // // this.tps.clearAllTransactions();
+        let status = document.getElementById("top5-statusbar");
+        
+        status.innerHTML = "Top 5 " + this.currentList.getName();
+        status.classList.add("top5-selected");
         this.view.updateToolbarButtons(this);
     }
 
@@ -217,7 +222,7 @@ export default class Top5Model {
     }
 
     redo() {
-        if (this.tps.hasTransactionTo()) {
+        if (this.tps.hasTransactionToRedo()) {
             this.tps.doTransaction();
             this.view.updateToolbarButtons(this);
         }

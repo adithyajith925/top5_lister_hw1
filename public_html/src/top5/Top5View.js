@@ -134,7 +134,7 @@ export default class Top5View {
             this.enableButton("undo-button");
         } 
         
-        if (!tps.hasTransactionTo()) {
+        if (!tps.hasTransactionToRedo()) {
             this.disableButton("redo-button");
         }
         else {

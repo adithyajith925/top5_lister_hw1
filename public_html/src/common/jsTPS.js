@@ -46,7 +46,7 @@ export default class jsTPS {
         // THE INDEX OF THE MOST RECENT TRANSACTION, NOTE THAT
         // THIS MAY BE IN THE MIDDLE OF THE TRANSACTION STACK
         // IF SOME TRANSACTIONS ON THE STACK HAVE BEEN UNDONE
-        // AND STILL COULD BE NE.
+        // AND STILL COULD BE REDONE.
         this.mostRecentTransaction = -1;
 
         // THESE STATE VARIABLES ARE TURNED ON AND OFF WHILE
@@ -60,7 +60,7 @@ export default class jsTPS {
      * isPerformingDo
      * 
      * Accessor method for getting a boolean representing whether or not
-     * a transaction is currently in the midst of a do/ operation.
+     * a transaction is currently in the midst of a do/redo operation.
      */
     isPerformingDo() {
         return this.performingDo;
@@ -86,12 +86,12 @@ export default class jsTPS {
     }
 
     /**
-     * getSize
+     * getRedoSize
      * 
      * Method for getting the total number of transactions on the stack
-     * that can possibly be ne.
+     * that can possibly be redone.
      */
-    getSize() {
+    getRedoSize() {
         return this.getSize() - this.mostRecentTransaction - 1;
     }
 
@@ -106,12 +106,12 @@ export default class jsTPS {
     }
 
     /**
-     * hasTransactionTo
+     * hasTransactionToRedo
      * 
      * Method for getting a boolean representing whether or not
-     * there are transactions on the stack that can be ne.
+     * there are transactions on the stack that can be redone.
      */
-    hasTransactionTo() {
+    hasTransactionToRedo() {
         return (this.mostRecentTransaction+1) < this.numTransactions;
     }
 
@@ -158,10 +158,10 @@ export default class jsTPS {
      * 
      * Does the current transaction on the stack and advances the transaction
      * counter. Note this function may be invoked as a result of either adding
-     * a transaction (which also does it), or ing a transaction.
+     * a transaction (which also does it), or redoing a transaction.
      */
     doTransaction() {
-        if (this.hasTransactionTo()) {
+        if (this.hasTransactionToRedo()) {
             this.performingDo = true;
             let transaction = this.transactions[this.mostRecentTransaction+1];
             transaction.doTransaction();

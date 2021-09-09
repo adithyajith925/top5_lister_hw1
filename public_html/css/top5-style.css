@@ -71,6 +71,15 @@ body {
   height: 10%;
 }
 
+.top5-selected {
+  background-color: #ffa07a;
+  text-align: center;
+  font-size: xx-large;
+  height: 10%;
+  line-height: 70px;
+
+}
+
 #sidebar-heading {
   position:absolute;
   left:0%;
