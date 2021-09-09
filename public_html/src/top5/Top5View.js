@@ -132,6 +132,13 @@ export default class Top5View {
         }
         else {
             this.enableButton("undo-button");
-        }   
+        } 
+        
+        if (!tps.hasTransactionTo()) {
+            this.disableButton("redo-button");
+        }
+        else {
+            this.enableButton("redo-button");
+        } 
     }
 }

@@ -57,10 +57,11 @@ export default class Top5Model {
         for (let i = 0; i < this.top5Lists.length; i++) {
             this.top5Lists[i].setId(i);
         }
-        if (this.currentList.getId() === id) {
+        if (this.hasCurrentList() && this.currentList.getId() === id) {
             this.unselectAll();
         }
         this.sortLists();
+        this.saveLists();
         this.view.refreshLists(this.top5Lists);
     }
 
@@ -73,15 +74,16 @@ export default class Top5Model {
         this.top5Lists.push(newList);
         this.sortLists();
         this.view.refreshLists(this.top5Lists);
+        this.view.updateToolbarButtons(this);
         return newList;
     }
 
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
-            if (listA.getName() < listB.getName()) {
+            if (listA.getName().toLowerCase() < listB.getName().toLowerCase()) {
                 return -1;
             }
-            else if (listA.getName === listB.getName()) {
+            else if (listA.getName().toLowerCase() === listB.getName().toLowerCase()) {
                 return 0;
             }
             else {
@@ -104,6 +106,7 @@ export default class Top5Model {
             let list = this.top5Lists[i];
             this.view.unhighlightList(i);
         }
+        this.view.clearWorkspace();
     }
 
     mouseEntered(id) {
@@ -170,12 +173,14 @@ export default class Top5Model {
         let oldText = this.currentList.items[id];
         let transaction = new ChangeItem_Transaction(this, id, oldText, newText);
         this.tps.addTransaction(transaction);
+        this.view.updateToolbarButtons(this);
     }
 
     addChangeListTransaction = (name, newText) => {
         let oldText = this.currentList.getName();
         let transaction = new ChangeList_Transaction(this, name, oldText, newText);
         this.tps.addTransaction(transaction);
+        this.view.updateToolbarButtons(this);
     }
 
     changeItem(id, text) {
@@ -207,6 +212,13 @@ export default class Top5Model {
     undo() {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
+            this.view.updateToolbarButtons(this);
+        }
+    }
+
+    redo() {
+        if (this.tps.hasTransactionTo()) {
+            this.tps.doTransaction();
             this.view.updateToolbarButtons(this);
         }
     }
