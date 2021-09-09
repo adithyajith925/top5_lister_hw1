@@ -51,6 +51,19 @@ export default class Top5Model {
         this.view = initView;
     }
 
+    deleteList(id) {
+        this.nextListId--;
+        this.top5Lists.splice(id, 1);
+        for (let i = 0; i < this.top5Lists.length; i++) {
+            this.top5Lists[i].setId(i);
+        }
+        if (this.currentList.getId() === id) {
+            this.unselectAll();
+        }
+        this.sortLists();
+        this.view.refreshLists(this.top5Lists);
+    }
+
     addNewList(initName, initItems) {
         let newList = new Top5List(this.nextListId++);
         if (initName)
@@ -86,6 +99,7 @@ export default class Top5Model {
     }
 
     unselectAll() {
+        this.currentList = null;
         for (let i = 0; i < this.top5Lists.length; i++) {
             let list = this.top5Lists[i];
             this.view.unhighlightList(i);

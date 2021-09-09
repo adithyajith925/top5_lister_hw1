@@ -127,6 +127,15 @@ export default class Top5Controller {
             cancel.onclick = (event) => {
                 modal.classList.remove("is-visible");
             }
+
+            let confirm = document.getElementById("dialog-confirm-button");
+            confirm.onclick = (event) => {
+                this.model.deleteList(id);
+                if (this.model.hasCurrentList()) {
+                    this.model.loadList(this.model.currentList.getId());
+                }
+                modal.classList.remove("is-visible");
+            }
         }
     }
 
