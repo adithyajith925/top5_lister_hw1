@@ -102,6 +102,7 @@ export default class Top5Model {
 
     unselectAll() {
         this.currentList = null;
+        this.view.updateToolbarButtons(this);
         document.getElementById("top5-statusbar").innerHTML = "";
         document.getElementById("top5-statusbar").classList.remove("top5-selected");
         for (let i = 0; i < this.top5Lists.length; i++) {

@@ -140,5 +140,12 @@ export default class Top5View {
         else {
             this.enableButton("redo-button");
         } 
+
+        if (model.currentList != null) {
+            this.enableButton("close-button");
+        }
+        else {
+            this.disableButton("close-button");
+        }
     }
 }
