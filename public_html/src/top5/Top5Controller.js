@@ -71,7 +71,6 @@ export default class Top5Controller {
 
             item.ondrop = (ev) => {
                 ev.preventDefault();
-                console.log(ev.dataTransfer.getData("text") + i);
                 let oldId = parseInt(ev.dataTransfer.getData("text"));
                 this.model.addSwapItemTransaction(oldId, i-1);
                 this.model.restoreList();
@@ -165,10 +164,16 @@ export default class Top5Controller {
             }
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
+                    if (event.target.value === "") {
+                        event.target.value = "Untitled";
+                    }
                     this.model.addChangeListTransaction(uniq, event.target.value);
                 }
             }
             textInput.onblur = (event) => {
+                if (event.target.value === "") {
+                    event.target.value = "Untitled";
+                }
                 this.model.addChangeListTransaction(uniq, event.target.value);
                 // item.removeChild(textInput);
                 this.model.restoreList();
