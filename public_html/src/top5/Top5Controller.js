@@ -18,38 +18,41 @@ export default class Top5Controller {
 
     initHandlers() {
         // SETUP THE TOOLBAR BUTTON HANDLERS
+
         document.getElementById("add-list-button").onclick = (event) => {
-            let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);    
-            let id = newList.id;
-            let item = document.getElementById("top5-list-" + id);
-            this.model.loadList(id);
-            let uniq = this.model.currentList.getUniq();
-            item.innerHTML = "";
-            
-            let textInput = document.createElement("input");
-            textInput.setAttribute("type", "text");
-            textInput.setAttribute("id", "list-text-input-");
-            textInput.setAttribute("value", this.model.currentList.getName());
-            item.appendChild(textInput);
+            if (!document.getElementById("add-list-button").classList.contains("disabled")) {
+                let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);    
+                let id = newList.id;
+                let item = document.getElementById("top5-list-" + id);
+                this.model.loadList(id);
+                let uniq = this.model.currentList.getUniq();
+                item.innerHTML = "";
+                
+                let textInput = document.createElement("input");
+                textInput.setAttribute("type", "text");
+                textInput.setAttribute("id", "list-text-input-");
+                textInput.setAttribute("value", this.model.currentList.getName());
+                item.appendChild(textInput);
 
-            textInput.focus();
+                textInput.focus();
 
-            textInput.ondblclick = (event) => {
-                this.ignoreParentClick(event);
-            }
-            textInput.onkeydown = (event) => {
-                if (event.key === 'Enter') {
-                    this.model.addChangeListTransaction(uniq, event.target.value);
+                textInput.ondblclick = (event) => {
+                    this.ignoreParentClick(event);
                 }
+                textInput.onkeydown = (event) => {
+                    if (event.key === 'Enter') {
+                        this.model.addChangeListTransaction(uniq, event.target.value);
+                    }
+                }
+                textInput.onblur = (event) => {
+                    this.model.addChangeListTransaction(uniq, event.target.value);
+                    // item.removeChild(textInput);
+                    this.model.restoreList();
+                }
+                // this.model.sortLists();        
+                // this.model.loadList(newList.id);
+                this.model.saveLists();
             }
-            textInput.onblur = (event) => {
-                this.model.addChangeListTransaction(uniq, event.target.value);
-                // item.removeChild(textInput);
-                this.model.restoreList();
-            }
-            // this.model.sortLists();        
-            // this.model.loadList(newList.id);
-            this.model.saveLists();
         }
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();

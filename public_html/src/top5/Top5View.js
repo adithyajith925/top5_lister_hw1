@@ -140,12 +140,13 @@ export default class Top5View {
         else {
             this.enableButton("redo-button");
         } 
-
         if (model.currentList != null) {
             this.enableButton("close-button");
+            this.disableButton("add-list-button");
         }
         else {
             this.disableButton("close-button");
+            this.enableButton("add-list-button");
         }
     }
 }
