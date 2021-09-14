@@ -103,13 +103,13 @@ export default class Top5Model {
 
     unselectAll() {
         this.currentList = null;
+        this.tps.clearAllTransactions();
         this.view.updateToolbarButtons(this);
         document.getElementById("top5-statusbar").innerHTML = "";
         document.getElementById("top5-statusbar").classList.remove("top5-selected");
         for (let i = 0; i < this.top5Lists.length; i++) {
             this.view.unhighlightList(i);
         }
-        this.tps.clearAllTransactions();
         this.view.clearWorkspace();
     }
 
