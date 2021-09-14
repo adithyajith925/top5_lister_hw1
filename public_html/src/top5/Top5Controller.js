@@ -68,6 +68,20 @@ export default class Top5Controller {
             let item = document.getElementById("item-" + i);
 
             // AND FOR TEXT EDITING
+
+            item.ondrop = (ev) => {
+                ev.preventDefault();
+                console.log(ev.dataTransfer.getData("text") + i);
+                let oldId = parseInt(ev.dataTransfer.getData("text"));
+                this.model.addSwapItemTransaction(oldId, i-1);
+                this.model.restoreList();
+            }
+            item.ondragover = (ev) => {
+                ev.preventDefault();
+            }
+            item.ondragstart = (ev) => {
+                ev.dataTransfer.setData("text", i-1)
+            }
             item.ondblclick = (ev) => {
                 if (this.model.hasCurrentList()) {
                     // CLEAR THE TEXT
@@ -88,6 +102,9 @@ export default class Top5Controller {
                     }
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
+                            if (event.target.value === "") {
+                                event.target.value = "?"
+                            }
                             this.model.addChangeItemTransaction(i-1, event.target.value);       
                         }
                     }

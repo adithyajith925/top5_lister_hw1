@@ -2,6 +2,7 @@ import jsTPS from "../common/jsTPS.js"
 import Top5List from "./Top5List.js";
 import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
 import ChangeList_Transaction from "./transactions/ChangeList_Transaction.js"
+import SwapItem_Transaction from "./transactions/SwapItem_Transaction.js"
 
 /**
  * Top5Model.js
@@ -108,6 +109,7 @@ export default class Top5Model {
         for (let i = 0; i < this.top5Lists.length; i++) {
             this.view.unhighlightList(i);
         }
+        this.tps.clearAllTransactions();
         this.view.clearWorkspace();
     }
 
@@ -182,6 +184,12 @@ export default class Top5Model {
         this.view.updateToolbarButtons(this);
     }
 
+    addSwapItemTransaction = (oldId, newId) => {
+        let transaction = new SwapItem_Transaction(this, oldId, newId);
+        this.tps.addTransaction(transaction);
+        this.view.updateToolbarButtons(this);
+    }
+
     addChangeListTransaction = (name, newText) => {
         let oldText = this.currentList.getName();
         let transaction = new ChangeList_Transaction(this, name, oldText, newText);
@@ -191,6 +199,23 @@ export default class Top5Model {
 
     changeItem(id, text) {
         this.currentList.items[id] = text;
+        this.view.update(this.currentList);
+        this.saveLists();
+    }
+
+    swapItems(oldId, newId) {
+        let text = this.currentList.items[oldId];
+        if (oldId > newId) {
+            for (let index = oldId; index > newId; index--) {
+                this.currentList.items[index] = this.currentList.items[index-1];
+            }
+        }
+        else {
+            for (let index = oldId; index < newId; index++) {
+                this.currentList.items[index] = this.currentList.items[index+1];
+            }
+        }
+        this.currentList.items[newId] = text;
         this.view.update(this.currentList);
         this.saveLists();
     }
